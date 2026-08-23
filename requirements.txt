@@ -1,6 +1,9 @@
 #测试核心
 pytest>=8.0.0
 pytest-html>=4.1.0
+outputdir = "results"
+report = "report.html"
+log = "log.html"
 
 
 #AI/RAG

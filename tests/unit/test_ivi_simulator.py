@@ -6,10 +6,24 @@ from src.cockpit.ivi_simulator import IVISimulator
 class TestIVISimulator:
     """IVI模拟器测试"""
 
-    def test_set_volume_valid(self, ivi_simulator):
+    @pytest.mark.parametrize("volume,expected", [
+        (0, 0), (50, 50), (100, 100)
+        ],ids=["mute","half","max"])
+    def test_volume_parametrized(self, ivi_simulator, volume, expected):
+        """参数化测试：验证不同音量值设置正确"""
+        ivi_simulator.set_volume(volume)
+        assert ivi_simulator.get_volume() == expected
+
+    @pytest.mark.parametrize("invalid_volume", [-1, 101, 200])
+    def test_set_volume_invalid(self, ivi_simulator, invalid_volume):
+        """参数化测试：非法音量值应抛异常"""
+        with pytest.raises(ValueError):
+            ivi_simulator.set_volume(invalid_volume)
+
+    def test_set_volume_valid(self, ivi_simulator, volume, expected):
         """测试合法音量设置"""
-        ivi_simulator.set_volume(50)
-        assert ivi_simulator.get_volume() == 50
+        ivi_simulator.set_volume(volume)
+        assert ivi_simulator.get_volume() == expected
 
     def test_set_volume_boundary_min(self, ivi_simulator):
         """测试音量下限边界"""

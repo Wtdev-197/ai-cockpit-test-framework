@@ -1,35 +1,55 @@
-<<<<<<< HEAD
 # ai-cockpit-test-framework
-AI-powered intelligent cockpit automated testing framework
-=======
-# 🚛 AI智能座舱自动化测试框架
-![Python Version](https://img.shields.io/badge/python-3.11.9+-blue.svg)
-![Status](https://img.shields.io/badge/status-active-yellow.svg)
-![Target](https://img.shields.io/badge/目标-上海车企座舱测试-orange.svg)
 
-## 📌 核心定位
-## 🎯 适配测试场景
-## 🛠 技术栈
-## 🚀 快速开始
-## 📂 项目结构
-## 💡 核心功能演示（配截图）
-## 📊 项目成果（量化数据，可选）
-## 🔧 技术亮点
-## ⚠️ 注意事项（可选）
-## 👤 作者
-## 📄 License
-## 架构设计
-详见 [docs/architecture.md](docs/architecture.md)
-## API 文档
-详见 [docs/api_docs/cockpit_api.md](docs/api_docs/cockpit_api.md)
-## 运行 Robot Framework 验收测试
-robot --outputdir results tests/acceptance/    
-## 技术栈
-| 类别 | 技术 |
-|------|------|
-| 语言 | Python 3.10+ |
-| 单元测试 | pytest |
-| 验收测试 | Robot Framework |
-| AI/RAG | LangChain, ChromaDB |
-| 配置 | python-dotenv, PyYAML |
->>>>>>> 8a1dde0 (chore: initial project setup with security config)
+AI-powered intelligent cockpit automated testing framework for zero-hardware IVI simulation, CAN signal validation, Robot Framework acceptance tests, and AI/RAG-assisted test case generation.
+
+## Project Positioning
+
+The framework provides layered testing for intelligent cockpit features. It supports fast local testing with a simulator and Mock mode, while leaving extension points for CANoe, UDS, real IVI APIs, LLM providers, and vector retrieval.
+
+## Capabilities
+
+- IVI simulator: volume control, music playback state, reset, and simulated bus messages.
+- CAN adapter: connection lifecycle, signal transmission, message history, and big-endian response parsing.
+- AI pipeline: requirement parsing, test-point extraction, text test-case generation, and RAG document lookup.
+- Acceptance testing: Robot Framework multimedia volume scenarios covering boundaries, increments, invalid values, and mute state.
+- Reporting: pytest logs and HTML output can be stored under `results/`.
+
+## Quick Start
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pytest -v
+python -m robot --outputdir results tests/acceptance/
+```
+
+See [docs/deployment.md](docs/deployment.md) for setup and [docs/testing.md](docs/testing.md) for the complete test inventory.
+
+## Repository Layout
+
+| Path | Purpose |
+| --- | --- |
+| `src/ai/` | Requirement parsing, test generation, and RAG pipeline |
+| `src/cockpit/` | IVI simulator and CAN bus adapter |
+| `src/utils/` | Environment and logging utilities |
+| `tests/unit/` | IVI simulator unit tests |
+| `tests/integration/` | AI/RAG pipeline integration tests |
+| `tests/acceptance/` | Robot Framework suites and resources |
+| `data/raw/` | Input requirements |
+| `data/rag_knowledge/` | RAG knowledge documents |
+| `results/` | Test reports and execution artifacts |
+| `docs/` | Project, architecture, API, deployment, and test documentation |
+
+## Documentation
+
+- [Deployment Guide](docs/deployment.md)
+- [Test Execution Guide](docs/testing.md)
+- [Architecture](docs/architecture.md)
+- [Cockpit API](docs/api_docs/cockpit_api.md)
+- [MIT License](LICENSE)
+
+## Runtime Mode
+
+The default `RUN_MODE` is `mock`, so tests run without physical cockpit hardware or external LLM credentials. Real integrations require project-specific adapters and credentials.

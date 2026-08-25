@@ -54,3 +54,4 @@ data/raw/bus_logs/
 .robot/
 __pycache__/
 *.pyc
+results/

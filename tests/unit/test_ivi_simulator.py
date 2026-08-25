@@ -20,6 +20,9 @@ class TestIVISimulator:
         with pytest.raises(ValueError):
             ivi_simulator.set_volume(invalid_volume)
 
+    @pytest.mark.parametrize("volume,expected", [
+        (0, 0), (50, 50), (100, 100)
+    ], ids=["mute", "half", "max"])
     def test_set_volume_valid(self, ivi_simulator, volume, expected):
         """测试合法音量设置"""
         ivi_simulator.set_volume(volume)

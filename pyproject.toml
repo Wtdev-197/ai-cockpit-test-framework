@@ -1,14 +1,35 @@
+[project]
+name = "ai-cockpit-test-framework"
+version = "0.1.0"
+description = "工程化智能座舱（IVI）自动化测试框架，基于 pytest + GitHub Actions CI"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "YOUR_NAME", email = "YOUR_EMAIL@example.com"}
+]
+
+dependencies = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "python-dotenv>=1.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "python-dotenv>=1.0"
+]
+
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+where = ["src"]
 
-[project]
-name = "cockpit-test-framework"
-version = "v0.1.0"
-description = "AI-powered cockpit domain testing framework"
-requires-python = ">=3.10"
-
-
-[tools.pytest.ini_options]
+[tool.pytest.ini_options]
+pythonpath = ["."]
 testpaths = ["tests"]
+addopts = "-v --tb=short"

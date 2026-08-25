@@ -14,7 +14,7 @@ Documentation    座舱测试共享关键字库
 读取CAN信号
     [Arguments]    ${signal_id}
     Log    读取CAN信号: ${signal_id}
-    [Return]    ${0}
+    RETURN    ${0}
 
 启动UDS诊断会话
     [Arguments]    ${diagnostic_id}

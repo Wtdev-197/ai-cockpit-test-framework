@@ -64,9 +64,9 @@ ${CURRENT_VOLUME}    ${50}
     [Documentation]    验证设置-1和101等非法值时应抛出异常
     记录测试步骤    测试非法音量值拒绝
     # 设置负数应失败
-    Run Keyword And Expect Error    *非法音量*    Set Volume    -1
+    Run Keyword And Expect Error    *小于最小值*    Set Volume    -1
     # 设置超范围应失败
-    Run Keyword And Expect Error    *非法音量*    Set Volume    101
+    Run Keyword And Expect Error    *大于最大值*    Set Volume    101
 
 *** Keywords ***
 初始化测试环境

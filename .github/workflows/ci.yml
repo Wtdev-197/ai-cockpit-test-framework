@@ -1,0 +1,70 @@
+name: CI Test Pipeline
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      # ---------- pytest 层（代码级逻辑验证 + 覆盖率） ----------
+      - name: Run all pytest tests
+        run: python -m pytest tests/ -v
+
+      - name: Run unit tests only
+        run: python -m pytest tests/unit/ -v
+
+      - name: Generate coverage report
+        env:
+          # 规避 Runner 临时目录的 SQLite 限制，将覆盖率数据写到可写路径
+          COVERAGE_FILE: ${{ runner.temp }}/.coverage
+        run: |
+          python -m pytest tests/ --cov=src --cov-report=term --cov-report=html
+          echo "Coverage report generated at htmlcov/index.html"
+
+      - name: Upload coverage report
+        if: matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: htmlcov/
+
+      # ---------- Robot Framework 层（业务级行为验证） ----------
+      - name: Run Robot Framework tests
+        run: |
+          mkdir -p results
+          robot --outputdir results tests/acceptance/ || echo "ROBOT_FAILED=true" >> $GITHUB_ENV
+
+      - name: Upload Robot results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results-py${{ matrix.python-version }}
+          path: results/
+
+      - name: Fail job if Robot tests failed
+        if: env.ROBOT_FAILED == 'true'
+        run: |
+          echo "❌ Robot Framework tests failed. Check the uploaded 'robot-results' artifact (log.html / report.html)."
+          exit 1

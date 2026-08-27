@@ -1,0 +1,7 @@
+[run]
+source = src
+
+[report]
+show_missing = True
+skip_empty = True
+precision = 1

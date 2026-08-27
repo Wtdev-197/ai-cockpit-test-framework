@@ -46,9 +46,15 @@ pip install -e .
 # 4. 运行全部测试
 python -m pytest tests/ -v
 
-# 5. 查看覆盖率报告
-python -m pytest tests/ --cov=src --cov-report=html
-# 打开 htmlcov/index.html 查看报告
+# 5. 生成测试结果和覆盖率报告
+python -m pytest tests/ `
+	--cov=src `
+	--cov-report=term-missing `
+	--cov-report=html:htmlcov `
+	--html=results/pytest-report.html `
+	--self-contained-html
+# 测试结果：results/pytest-report.html
+# 源码覆盖率：htmlcov/index.html
 ```
 
 ---
@@ -76,8 +82,13 @@ python -m pytest tests/ -v -m "slow"
 7.跳过标记为 slow 的用例
 python -m pytest tests/ -v -m "not slow"
 
-8.生成覆盖率报告
-python -m pytest tests/ --cov=src --cov-report=term --cov-report=html
+8.生成完整报告
+python -m pytest tests/ --cov=src --cov-report=term-missing --cov-report=html:htmlcov --html=results/pytest-report.html --self-contained-html
+
+报告用途：
+- `results/pytest-report.html`：查看测试通过/失败、耗时、错误堆栈和每条用例详情。
+- `htmlcov/index.html`：查看模块、文件和源码行覆盖率，点击文件可定位未覆盖行。
+- 终端输出：直接查看总体覆盖率和缺失行，不打开浏览器也能快速判断结果。
 
 运行 Robot Framework 测试
 # 安装 Robot Framework 及常用库

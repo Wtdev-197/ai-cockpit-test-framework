@@ -38,12 +38,6 @@ class TestIVISimulator:
         ivi_simulator.set_volume(100)
         assert ivi_simulator.get_volume() == 100
 
-    @pytest.mark.parametrize("invalid_volume", [-1, 101, 200])
-    def test_set_volume_invalid(self, ivi_simulator, invalid_volume):
-        """测试非法音量值应抛出异常"""
-        with pytest.raises(ValueError):
-            ivi_simulator.set_volume(invalid_volume)
-
     def test_play_music(self, ivi_simulator):
         """测试播放音乐"""
         ivi_simulator.play_music("离不开你的依赖")

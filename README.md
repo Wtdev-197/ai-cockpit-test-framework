@@ -70,11 +70,11 @@ python -m pytest tests/unit/ -v
 3.运行指定测试文件
 python -m pytest tests/unit/test_ivi_simulator.py -v
 
-4.运行指定测试类 / 方法,运行指定类中的所有测试
+4.运行指定测试类 / 方法，运行指定类中的所有测试
 python -m pytest tests/unit/test_ivi_simulator.py::TestIVISimulator -v
 
 5.运行指定的单个测试方法
-python -m pytest tests/unit/test_ivi_simulator.py::TestIVISimulator::test_initialization -v
+python -m pytest tests/unit/test_ivi_simulator.py::TestIVISimulator::test_play_music -v
 
 6.按标记运行,只运行标记为 slow 的用例
 python -m pytest tests/ -v -m "slow"
